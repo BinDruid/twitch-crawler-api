@@ -13,7 +13,7 @@ class Chats(models.Model):
     is_sub = models.BooleanField(default=False)
     is_mod = models.BooleanField(default=False)
     is_vip = models.BooleanField(default=False)
-    date = models.DateTimeField(auto_now_add=True, null=True)
+    date = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         ordering = [
@@ -35,7 +35,7 @@ class Emotes(models.Model):
     url = models.CharField(max_length=255)
     provider = models.CharField(max_length=10)
     set = models.CharField(max_length=10)
-    date = models.DateTimeField(auto_now_add=True, null=True)
+    date = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         ordering = [
