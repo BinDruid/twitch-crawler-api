@@ -1,14 +1,14 @@
 from rest_framework import serializers
-from .models import Emotes, Chats
+from .models import Emote, Chat
 
 
 class ChatSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Chats
-        fields = "__all__"
+        model = Chat
+        fields = ["username", "message", "date"]
 
 
 class EmoteSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Emotes
-        fields = "__all__"
+        model = Emote
+        exclude = ("id",)

@@ -21,6 +21,7 @@ INSTALLED_APPS = [
     # project apps
     "apps.core",
     "apps.chat",
+    "apps.stats",
     # third party
     "rest_framework",
     "rest_framework.authtoken",
@@ -29,6 +30,8 @@ INSTALLED_APPS = [
     "corsheaders",
     "django_extensions",
 ]
+
+INSTALLED_APPS.insert(0, "jazzmin")
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -116,12 +119,22 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 REST_FRAMEWORK = {
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
-    "PAGE_SIZE": 400,
+    "PAGE_SIZE": 100,
     "COERCE_DECIMAL_TO_STRING": False,
     "EXCEPTION_HANDLER": "drf_standardized_errors.handler.exception_handler",
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework.authentication.TokenAuthentication",
     ),
+}
+
+# Jazzmin admin UI
+JAZZMIN_SETTINGS = {
+    "site_title": "Railway Dashboard",
+    "site_brand": "Railway Dashboard",
+}
+
+JAZZMIN_UI_TWEAKS = {
+    "theme": "darkly",
 }
 
 CORS_ALLOW_ALL_ORIGINS = True

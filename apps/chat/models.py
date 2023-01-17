@@ -1,7 +1,7 @@
 from django.db import models
 
 
-class Chats(models.Model):
+class Chat(models.Model):
 
     """
     Description
@@ -17,7 +17,7 @@ class Chats(models.Model):
 
     class Meta:
         ordering = [
-            "date",
+            "-date",
         ]
         db_table = "chats"
 
@@ -25,7 +25,7 @@ class Chats(models.Model):
         return self.message
 
 
-class Emotes(models.Model):
+class Emote(models.Model):
 
     """
     Description
@@ -39,7 +39,7 @@ class Emotes(models.Model):
 
     class Meta:
         ordering = [
-            "date",
+            "code",
         ]
         db_table = "emotes"
 
@@ -52,7 +52,7 @@ class MessageEmojis(models.Model):
     Description
     """
 
-    message = models.ForeignKey(Chats, related_name="emojis", on_delete=models.CASCADE)
+    message = models.ForeignKey(Chat, related_name="emojis", on_delete=models.CASCADE)
     emoji = models.CharField(max_length=255)
     count = models.IntegerField()
 
@@ -65,8 +65,8 @@ class MessageEmotes(models.Model):
     Description
     """
 
-    message = models.ForeignKey(Chats, related_name="emotes", on_delete=models.CASCADE)
-    emote = models.ForeignKey(Emotes, on_delete=models.PROTECT)
+    message = models.ForeignKey(Chat, related_name="emotes", on_delete=models.CASCADE)
+    emote = models.ForeignKey(Emote, on_delete=models.PROTECT)
     count = models.IntegerField()
 
     class Meta:
@@ -78,9 +78,7 @@ class MessageMentions(models.Model):
     Description
     """
 
-    message = models.ForeignKey(
-        Chats, related_name="mentions", on_delete=models.CASCADE
-    )
+    message = models.ForeignKey(Chat, related_name="mentions", on_delete=models.CASCADE)
     mention = models.CharField(max_length=255)
     count = models.IntegerField()
 

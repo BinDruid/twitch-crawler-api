@@ -1,21 +1,15 @@
 from django.contrib import admin
 
-# from .models import ChatSession, ChatMember, ChatMessage
+from .models import Chat, Emote
 
 
-# @admin.register(ChatSession)
-# class ChatSessionAdmin(admin.ModelAdmin):
-#     list_per_page = 15
-#     list_display = ["session_name", "owner"]
+@admin.register(Chat)
+class ChatsAdmin(admin.ModelAdmin):
+    list_per_page = 15
+    list_display = ["message", "user_id"]
 
 
-# @admin.register(ChatMember)
-# class ChatMemberAdmin(admin.ModelAdmin):
-#     list_per_page = 15
-#     list_display = ["chat_session", "user"]
-
-
-# @admin.register(ChatMessage)
-# class ChatMessageAdmin(admin.ModelAdmin):
-#     list_per_page = 15
-#     list_display = ["message", "session_member"]
+@admin.register(Emote)
+class EmotesAdmin(admin.ModelAdmin):
+    list_per_page = 15
+    list_display = ["code", "url"]

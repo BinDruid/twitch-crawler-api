@@ -11,4 +11,5 @@ urlpatterns += [
     path("v1/auth/", include("djoser.urls")),
     path("v1/auth/", include("djoser.urls.authtoken")),
     path("v1/chats/", include("apps.chat.urls")),
+    path("v1/stats/", include("apps.stats.urls")),
 ]
