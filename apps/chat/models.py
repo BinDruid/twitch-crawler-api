@@ -1,4 +1,34 @@
 from django.db import models
+from django.db.models import F, Count, Sum
+
+
+class ChatManager(models.Manager):
+    def by_emotes(self):
+        return (
+            Chat.objects.annotate(emote=F("emotes__emote__code"))
+            .exclude(emote__isnull=True)
+            .values("emote")
+            .annotate(total=Sum("emotes__count"))
+            .order_by("-total")
+        )
+
+    def by_emojis(self):
+        return (
+            Chat.objects.annotate(emoji=F("emojis__emoji"))
+            .exclude(emoji__isnull=True)
+            .values("emoji")
+            .annotate(total=Sum("emojis__count"))
+            .order_by("-total")
+        )
+
+    def by_mentions(self):
+        return (
+            Chat.objects.annotate(mention=F("mentions__mention"))
+            .exclude(mention__isnull=True)
+            .values("mention")
+            .annotate(total=Sum("mentions__count"))
+            .order_by("-total")
+        )
 
 
 class Chat(models.Model):
@@ -6,6 +36,8 @@ class Chat(models.Model):
     """
     Description
     """
+
+    objects = ChatManager()
 
     message = models.CharField(max_length=600)
     username = models.CharField(max_length=255)
