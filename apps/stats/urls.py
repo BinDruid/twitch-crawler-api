@@ -1,6 +1,6 @@
 from django.urls import path
-from .views import UserMessage
+from .views import ReportStats
 
 urlpatterns = [
-    path("users/", UserMessage.as_view({"get": "list"}), name="message_by_user"),
+    path("", ReportStats.as_view({"get": "list"}), name="pivotal_stats"),
 ]

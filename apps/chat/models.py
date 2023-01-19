@@ -1,18 +1,21 @@
 from django.db import models
-from django.db.models import F, Count, Sum
+from django.db.models.functions import Trunc
+from django.db.models import F, Count, Sum, DateTimeField
 
 
 class ChatManager(models.Manager):
-    def by_emotes(self):
+    def by_emote(self):
         return (
-            Chat.objects.annotate(emote=F("emotes__emote__code"))
+            Chat.objects.annotate(
+                emote=F("emotes__emote__code"), url=F("emotes__emote__url")
+            )
             .exclude(emote__isnull=True)
-            .values("emote")
+            .values("emote", "url")
             .annotate(total=Sum("emotes__count"))
             .order_by("-total")
         )
 
-    def by_emojis(self):
+    def by_emoji(self):
         return (
             Chat.objects.annotate(emoji=F("emojis__emoji"))
             .exclude(emoji__isnull=True)
@@ -21,13 +24,30 @@ class ChatManager(models.Manager):
             .order_by("-total")
         )
 
-    def by_mentions(self):
+    def by_mention(self):
         return (
             Chat.objects.annotate(mention=F("mentions__mention"))
             .exclude(mention__isnull=True)
             .values("mention")
             .annotate(total=Sum("mentions__count"))
             .order_by("-total")
+        )
+
+    def by_day(self):
+        return (
+            Chat.objects.annotate(
+                day=Trunc("date", "day", output_field=DateTimeField())
+            )
+            .values("day")
+            .annotate(message_counts=Count("message"))
+            .order_by("-message_counts")
+        )
+
+    def by_user(self):
+        return (
+            Chat.objects.values("username")
+            .annotate(message_counts=Count("message"))
+            .order_by("-message_counts")
         )
 
 

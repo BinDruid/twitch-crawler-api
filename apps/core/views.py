@@ -13,5 +13,6 @@ class ApiRootView(APIView):
             {
                 "messages": reverse("chat_messages", request=request, format=format),
                 "emotes": reverse("chat_emotes", request=request, format=format),
+                "stats": reverse("pivotal_stats", request=request, format=format),
             }
         )
