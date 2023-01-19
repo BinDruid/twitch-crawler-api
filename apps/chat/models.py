@@ -1,5 +1,5 @@
 from django.db import models
-from django.db.models.functions import Trunc
+from django.db.models.functions import Trunc, Lower
 from django.db.models import F, Count, Sum, DateTimeField
 
 
@@ -26,7 +26,7 @@ class ChatManager(models.Manager):
 
     def by_mention(self):
         return (
-            Chat.objects.annotate(mention=F("mentions__mention"))
+            Chat.objects.annotate(mention=Lower("mentions__mention"))
             .exclude(mention__isnull=True)
             .values("mention")
             .annotate(total=Sum("mentions__count"))
